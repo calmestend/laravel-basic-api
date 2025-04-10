@@ -9,35 +9,32 @@ use App\Http\Controllers\StockController;
 use Illuminate\Support\Facades\Route;
 
 
+// CategoryController
+Route::get('categories', [CategoryController::class, 'index']);
+
+// ProductController
 Route::get('products', [ProductController::class, 'index']);
+Route::post('products', [ProductController::class, 'store']);
+Route::patch('products', [ProductController::class, 'update']);
+Route::delete('products', [ProductController::class, 'switchActiveStatus']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    // CategoryController
-    Route::get('categories', [CategoryController::class, 'index']);
+// StockController
+Route::get('stocks', [StockController::class, 'index']);
+Route::post('stocks', [StockController::class, 'store']);
+Route::patch('stocks', [StockController::class, 'update']);
 
-    // ProductController
-    Route::post('products', [ProductController::class, 'store']);
-    Route::patch('products', [ProductController::class, 'update']);
-    Route::delete('products', [ProductController::class, 'switchActiveStatus']);
+// SaleController
+Route::get('sale', [SaleController::class, 'index']);
+Route::post('sale', [SaleController::class, 'store']);
 
-    // StockController
-    Route::get('stocks', [StockController::class, 'index']);
-    Route::post('stocks', [StockController::class, 'store']);
-    Route::patch('stocks', [StockController::class, 'update']);
+// SaleStockController
+Route::get('sale_stock', [SaleStockController::class, 'index']);
+Route::post('sale_stock', [SaleStockController::class, 'store']);
 
-    // SaleController
-    Route::get('sale', [SaleController::class, 'index']);
-    Route::post('sale', [SaleController::class, 'store']);
-
-    // SaleStockController
-    Route::get('sale_stock', [SaleStockController::class, 'index']);
-    Route::post('sale_stock', [SaleStockController::class, 'store']);
-
-    // ShoppingCartProductController
-    Route::get('shopping_cart_product', [ShoppingCartProductController::class, 'index']);
-    Route::post('shopping_cart_product', [ShoppingCartProductController::class, 'store']);
-    Route::patch('shopping_cart_product', [ShoppingCartProductController::class, 'update']);
-    Route::delete('shopping_cart_product', [ShoppingCartProductController::class, 'destroy']);
-});
+// ShoppingCartProductController
+Route::get('shopping_cart_product', [ShoppingCartProductController::class, 'index']);
+Route::post('shopping_cart_product', [ShoppingCartProductController::class, 'store']);
+Route::patch('shopping_cart_product', [ShoppingCartProductController::class, 'update']);
+Route::delete('shopping_cart_product', [ShoppingCartProductController::class, 'destroy']);
 
 require __DIR__ . '/auth.php';

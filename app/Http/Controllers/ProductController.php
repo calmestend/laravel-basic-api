@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -13,7 +14,7 @@ class ProductController extends Controller
      */
     public function index(): JsonResponse
     {
-        $products = Product::all();
+        $products = Product::with('category', 'stock')->get();
 
         return response()->json([
             'products' => $products,
@@ -33,15 +34,24 @@ class ProductController extends Controller
             'img'         => ['required', 'url'],
             'price'       => ['required', 'numeric', 'min:1'],
             'active'      => ['required', 'boolean'],
+            'stock_quantity'    => ['required', 'numeric', 'min:1'],
         ]);
 
-        $product = Product::created([
+
+        $product = Product::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
             'description' => $request->description,
             'img' => $request->img,
             'price' => $request->price,
             'active' => $request->active,
+        ]);
+
+        $quantity = (int) $request->stock_quantity;
+
+        $stock = Stock::create([
+            'product_id' => $product->id,
+            'quantity' => $quantity
         ]);
 
         return response()->json([
